@@ -2,6 +2,8 @@ using CapstoneProject.Data;
 using CapstoneProject.Services.Contracts;
 using CapstoneProject.Services;
 using Microsoft.EntityFrameworkCore;
+using CapstoneProject.Utilities;
+using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +12,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<AppDbContext>(options =>
                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+builder.Services.AddScoped<IProductService, CapstoneProject.Services.ProductService>();
 builder.Services.AddScoped<IOrderHeaderService, OrderheaderService>();
 var app = builder.Build();
 
@@ -23,6 +26,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
 app.UseRouting();
 
 app.UseAuthorization();
