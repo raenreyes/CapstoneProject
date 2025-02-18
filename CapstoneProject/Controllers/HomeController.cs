@@ -44,10 +44,16 @@ namespace CapstoneProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Summary(ShoppingCartVM shoppingCart)
         {
-                await _orderHeaderService.SaveOrderHeader(shoppingCart.OrderHeader);
+            await _orderHeaderService.SaveOrderHeader(shoppingCart.OrderHeader);
+            return RedirectToAction("StripePost", "Home", new { orderHeaderId = shoppingCart.OrderHeader.Id });
+
+        }
+        //this is where all the stripe checkout logic will go
+        [HttpPost]
+        public IActionResult StripePost(int orderHeaderId)
+        {
             return RedirectToAction(nameof(Index));
         }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
