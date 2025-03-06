@@ -16,12 +16,12 @@ namespace CapstoneProject.Migrations
                 name: "Products",
                 columns: table => new
                 {
-                    ProductId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    ProductName = table.Column<string>(type: "TEXT", nullable: false),
-                    ProductDescription = table.Column<string>(type: "TEXT", nullable: false),
-                    ProductPrice = table.Column<decimal>(type: "TEXT", nullable: false),
-                    ProductImage = table.Column<string>(type: "TEXT", nullable: false)
+                    ProductId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProductName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProductDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProductPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ProductImage = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -32,18 +32,18 @@ namespace CapstoneProject.Migrations
                 name: "OrderHeaders",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    OrderTotal = table.Column<double>(type: "REAL", nullable: false),
-                    SessionId = table.Column<string>(type: "TEXT", nullable: true),
-                    PaymentIntentId = table.Column<string>(type: "TEXT", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: false),
-                    StreetAddress = table.Column<string>(type: "TEXT", nullable: false),
-                    City = table.Column<string>(type: "TEXT", nullable: false),
-                    State = table.Column<string>(type: "TEXT", nullable: false),
-                    PostalCode = table.Column<string>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    ProductId = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderTotal = table.Column<double>(type: "float", nullable: false),
+                    SessionId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PaymentIntentId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StreetAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    State = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -42,6 +42,12 @@ namespace CapstoneProject.Controllers
             
             return View(shoppingCart);
         }
+        public IActionResult Test()
+        {
+           
+            return View();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Summary(ShoppingCartVM shoppingCart)
