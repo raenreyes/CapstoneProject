@@ -22,7 +22,7 @@
                 </div>
                 <div class="row">
                     <div class="col-12 col-lg-3 offset-lg-1 text-center mb-3">
-                        <img src="~/img/fortune of time.jpg" width="100%" class="rounded" />
+                    <img src="~/img/TheresNoPasswordBtw.jpg" width="100%" class="rounded" />
                     </div>
                     <div class="col-12 col-lg-6 offset-lg-1">
 
@@ -45,33 +45,55 @@
                         <div class="row pl-2 my-3">
                             <p class="text-secondary lh-sm">@Model.ProductDescription</p>
                         </div>
-                       @*  <div class="row pl-2 mb-3">
-                            <div class="col-md-4">
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text bg-primary text-white border-0 fw-semibold"
-                                          id="inputGroup-sizing-default">
-                                        Count
-                                    </span>
-                                    <input asp-for="Count" type="number" value="1" class="form-control text-end"
-                                           aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
-
-                                </div>
-                            </div>
-                        </div> *@
-                        <div class="row">
-                            <div class="col-12 col-md-6 pb-1">
-                                @* <button type="submit"
-                                        class="">
-                                    Buy Now
-                                </button> *@
-                            <a asp-action="Summary" asp-route-productId="@Model.ProductId" class="btn btn-primary bg-gradient  w-100 py-2 text-uppercase fw-semibold">Details</a>
-
+                    <div class="row pl-2 mb-3">
+                        <div class="col-md-4">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text bg-primary text-white border-0 fw-semibold"
+                                      id="inputGroup-sizing-default">
+                                    Count
+                                </span>
+                                <select id="countDropdown" class="form-control text-end">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-1">
+                            <a id="detailsButton" asp-action="Summary" asp-route-productId="@Model.ProductId"
+                               class="btn btn-primary bg-gradient w-100 py-2 text-uppercase fw-semibold">
+                                Details
+                            </a>
+                        </div>
+                    </div>
                     </div>
 
                 </div>
             </div>
         </div>
     </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const countInput = document.getElementById("countDropdown");
+        const detailsButton = document.getElementById("detailsButton");
+
+        detailsButton.addEventListener("click", function (event) {
+            event.preventDefault(); // Prevent immediate navigation
+
+            const countValue = countInput.value;
+            const productId = "@Model.ProductId"; // Razor syntax to get the product ID
+
+            // Construct the new URL
+            const newUrl = `/Home/Summary?productId=${productId}&count=${countValue}`;
+
+            // Redirect to the new URL
+            window.location.href = newUrl;
+        });
+    });
+</script>
 

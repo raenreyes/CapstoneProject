@@ -3,8 +3,14 @@
 <form method="post">
 	<br />
 	@Html.AntiForgeryToken()
-	<input type="hidden" asp-for="OrderHeader.ProductId" />
-
+	<input type="hidden" asp-for="OrderHeader.Quantity" />
+    <input type="hidden" asp-for="OrderHeader.OrderTotal" />
+    <input type="hidden" asp-for="OrderHeader.ProductId" />
+    <input type="hidden" asp-for="Product.ProductId" />
+    <input type="hidden" asp-for="Product.ProductName" />
+    <input type="hidden" asp-for="Product.ProductDescription" />
+    <input type="hidden" asp-for="Product.ProductPrice" />
+    <input type="hidden" asp-for="Product.ProductImage" />
 	<div class="container">
 		<div class="card shadow border-0">
 			
@@ -94,15 +100,25 @@
 										<div>
 											<h6 class="my-0">@Model.Product.ProductName</h6>
 										</div>
-										<span class="text-muted">@Model.Product.ProductPrice.ToString("c") </span>
+									<span class="text-muted">@Model.Product.ProductPrice.ToString("c") X @Model.OrderHeader.Quantity </span>
 									</li>
+
+								<li class="list-group-item d-flex justify-content-between">
+									<div>
+										<h6 class="my-0">Quantity</h6>
+									</div>
+									<span class="text-muted"> @Model.OrderHeader.Quantity </span>
+								</li>
 								
 								<li class="list-group-item d-flex justify-content-between bg-light">
 									<small class="text-info">Total (USD)</small>
-									<strong class="text-info">@Model.Product.ProductPrice.ToString("c")</strong>
+									<strong class="text-info">@Model.OrderHeader.OrderTotal.ToString("c")</strong>
 								</li>
 							</ul>
 						</div>
+						
+						
+						
 					</div>
 				</div>
 			</div>
@@ -124,3 +140,6 @@
 </form>
 
 
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}

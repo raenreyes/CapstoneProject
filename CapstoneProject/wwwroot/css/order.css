@@ -1,0 +1,61 @@
+﻿.check-container {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #4CAF50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px auto;
+    animation: popIn 0.4s ease-out;
+}
+
+.checkmark {
+    width: 60px;
+    height: 60px;
+    stroke-width: 2;
+    stroke: white;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.checkmark-circle {
+    stroke-dasharray: 157;
+    stroke-dashoffset: 157;
+    stroke: white;
+    stroke-width: 2;
+    animation: draw-circle 1s ease-out forwards;
+}
+
+.checkmark-check {
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    stroke: white;
+    stroke-width: 2;
+    animation: draw-check 0.5s 0.5s ease-out forwards;
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes draw-circle {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes draw-check {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}

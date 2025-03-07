@@ -32,12 +32,13 @@ namespace CapstoneProject.Controllers
             var product = await _productService.GetProductById(productId);
             return View(product);
         }
-        public async Task<IActionResult> Summary(int productId)
+        public async Task<IActionResult> Summary(int productId,int count)
         {
+            var product = await _productService.GetProductById(productId);
             ShoppingCartVM shoppingCart = new ShoppingCartVM()
             {
-                Product = await _productService.GetProductById(productId),
-                OrderHeader = new OrderHeader() {ProductId = productId }
+                Product = product,
+                OrderHeader = new OrderHeader() {ProductId = productId,Quantity = count, OrderTotal = (double)(count * product.ProductPrice) }
             };
             
             return View(shoppingCart);
@@ -52,9 +53,18 @@ namespace CapstoneProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Summary(ShoppingCartVM shoppingCart)
         {
-            await _orderHeaderService.SaveOrderHeader(shoppingCart.OrderHeader);
-            return RedirectToAction("StripePost", "Home", new { orderHeaderId = shoppingCart.OrderHeader.Id });
-
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
+            foreach (var error in errors)
+            {
+                Console.WriteLine(error.ErrorMessage);
+            }
+            if (ModelState.IsValid)
+            {
+                await _orderHeaderService.SaveOrderHeader(shoppingCart.OrderHeader);
+                return RedirectToAction("StripePost", "Home", new { orderHeaderId = shoppingCart.OrderHeader.Id });
+            }
+            
+            return View(shoppingCart);
         }
         [HttpGet]
         public async Task<IActionResult> StripePost(int orderHeaderId)
@@ -71,14 +81,14 @@ namespace CapstoneProject.Controllers
             {
                 return NotFound();
             }
-            string productName = orderHeader.Product.ProductName;
+           
 
-            var domain = "https://localhost:7090/";
+            var domain = "http://localhost:5062";
             var options = new Stripe.Checkout.SessionCreateOptions
             {
                 //SuccessUrl = domain + $"customer/cart/OrderConfirmation",
-                SuccessUrl = "https://nike.com",
-                CancelUrl = domain + "customer/cart/index",
+                SuccessUrl = $"{domain}/Home/OrderConfirmation/{orderHeaderId}",
+                CancelUrl = domain,
                 LineItems = new List<Stripe.Checkout.SessionLineItemOptions>(),
                 Mode = "payment",
             };
@@ -89,13 +99,15 @@ namespace CapstoneProject.Controllers
                     {
                         UnitAmount = (long)(orderHeader.Product.ProductPrice * 100),//$20.50 => 2050
                         Currency = "usd",
+                       
                         ProductData = new SessionLineItemPriceDataProductDataOptions
                         {
                             Name = orderHeader.Product.ProductName
+                            
                         }
 
                     },
-                    Quantity = 1
+                    Quantity = orderHeader.Quantity
                 };
                 options.LineItems.Add(sessionLineItems);
             
@@ -113,6 +125,15 @@ namespace CapstoneProject.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        public async Task<IActionResult> OrderConfirmation(int id)
+        {
+            var orderHeader = await _orderHeaderService.GetOrderHeaderById(id);
+            if (orderHeader == null)
+            {
+                return NotFound();
+            }
+            return View(orderHeader);
         }
     }
 }
