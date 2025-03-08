@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CapstoneProject.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250218044037_AddOrderHeadertoDb")]
-    partial class AddOrderHeadertoDb
+    [Migration("20250306200857_AddQuantityToDB")]
+    partial class AddQuantityToDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,6 +55,9 @@ namespace CapstoneProject.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Quantity")
                         .HasColumnType("int");
 
                     b.Property<string>("SessionId")
@@ -101,6 +104,40 @@ namespace CapstoneProject.Migrations
                     b.HasKey("ProductId");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            ProductId = 1,
+                            ProductDescription = "A deep dive into the C# programming language.",
+                            ProductImage = "/images/csharp-depth.jpg",
+                            ProductName = "C# in Depth",
+                            ProductPrice = 39.99m
+                        },
+                        new
+                        {
+                            ProductId = 2,
+                            ProductDescription = "A guide to writing clean, maintainable, and efficient code.",
+                            ProductImage = "/images/clean-code.jpg",
+                            ProductName = "Clean Code",
+                            ProductPrice = 34.99m
+                        },
+                        new
+                        {
+                            ProductId = 3,
+                            ProductDescription = "Classic book on software craftsmanship and best practices.",
+                            ProductImage = "/images/pragmatic-programmer.jpg",
+                            ProductName = "The Pragmatic Programmer",
+                            ProductPrice = 44.99m
+                        },
+                        new
+                        {
+                            ProductId = 4,
+                            ProductDescription = "A foundational book on design patterns in software development.",
+                            ProductImage = "/images/design-patterns.jpg",
+                            ProductName = "Design Patterns: Elements of Reusable Object-Oriented Software",
+                            ProductPrice = 49.99m
+                        });
                 });
 
             modelBuilder.Entity("CapstoneProject.Models.OrderHeader", b =>

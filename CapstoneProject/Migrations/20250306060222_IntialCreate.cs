@@ -2,14 +2,32 @@
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace CapstoneProject.Migrations
 {
     /// <inheritdoc />
-    public partial class AddOrderHeadertoDb : Migration
+    public partial class IntialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    ProductId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProductName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProductDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProductPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ProductImage = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.ProductId);
+                });
+
             migrationBuilder.CreateTable(
                 name: "OrderHeaders",
                 columns: table => new
@@ -38,6 +56,17 @@ namespace CapstoneProject.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Products",
+                columns: new[] { "ProductId", "ProductDescription", "ProductImage", "ProductName", "ProductPrice" },
+                values: new object[,]
+                {
+                    { 1, "A deep dive into the C# programming language.", "/images/csharp-depth.jpg", "C# in Depth", 39.99m },
+                    { 2, "A guide to writing clean, maintainable, and efficient code.", "/images/clean-code.jpg", "Clean Code", 34.99m },
+                    { 3, "Classic book on software craftsmanship and best practices.", "/images/pragmatic-programmer.jpg", "The Pragmatic Programmer", 44.99m },
+                    { 4, "A foundational book on design patterns in software development.", "/images/design-patterns.jpg", "Design Patterns: Elements of Reusable Object-Oriented Software", 49.99m }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_OrderHeaders_ProductId",
                 table: "OrderHeaders",
@@ -49,6 +78,9 @@ namespace CapstoneProject.Migrations
         {
             migrationBuilder.DropTable(
                 name: "OrderHeaders");
+
+            migrationBuilder.DropTable(
+                name: "Products");
         }
     }
 }
