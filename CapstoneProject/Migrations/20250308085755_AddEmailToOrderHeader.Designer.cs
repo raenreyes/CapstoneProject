@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CapstoneProject.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250306200857_AddQuantityToDB")]
-    partial class AddQuantityToDB
+    [Migration("20250308085755_AddEmailToOrderHeader")]
+    partial class AddEmailToOrderHeader
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,6 +33,10 @@ namespace CapstoneProject.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -86,6 +90,9 @@ namespace CapstoneProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"));
 
+                    b.Property<bool>("IsProduct")
+                        .HasColumnType("bit");
+
                     b.Property<string>("ProductDescription")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -104,40 +111,6 @@ namespace CapstoneProject.Migrations
                     b.HasKey("ProductId");
 
                     b.ToTable("Products");
-
-                    b.HasData(
-                        new
-                        {
-                            ProductId = 1,
-                            ProductDescription = "A deep dive into the C# programming language.",
-                            ProductImage = "/images/csharp-depth.jpg",
-                            ProductName = "C# in Depth",
-                            ProductPrice = 39.99m
-                        },
-                        new
-                        {
-                            ProductId = 2,
-                            ProductDescription = "A guide to writing clean, maintainable, and efficient code.",
-                            ProductImage = "/images/clean-code.jpg",
-                            ProductName = "Clean Code",
-                            ProductPrice = 34.99m
-                        },
-                        new
-                        {
-                            ProductId = 3,
-                            ProductDescription = "Classic book on software craftsmanship and best practices.",
-                            ProductImage = "/images/pragmatic-programmer.jpg",
-                            ProductName = "The Pragmatic Programmer",
-                            ProductPrice = 44.99m
-                        },
-                        new
-                        {
-                            ProductId = 4,
-                            ProductDescription = "A foundational book on design patterns in software development.",
-                            ProductImage = "/images/design-patterns.jpg",
-                            ProductName = "Design Patterns: Elements of Reusable Object-Oriented Software",
-                            ProductPrice = 49.99m
-                        });
                 });
 
             modelBuilder.Entity("CapstoneProject.Models.OrderHeader", b =>

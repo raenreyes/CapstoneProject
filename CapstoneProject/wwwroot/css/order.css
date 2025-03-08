@@ -9,7 +9,12 @@
     margin: 20px auto;
     animation: popIn 0.4s ease-out;
 }
-
+nav {
+    background-color: #1a1a1a
+}
+footer {
+    background-color: #1a1a1a !important;
+}
 .checkmark {
     width: 60px;
     height: 60px;
@@ -58,4 +63,23 @@
     100% {
         stroke-dashoffset: 0;
     }
+}
+.custom-border-top {
+    border-top: 1px solid #FF7518; /* Matches Bootstrap width with custom color */
+}
+
+.custom-border-bottom {
+    border-bottom: 1px solid #FF7518; /* Matches Bootstrap width with custom color */
+}
+.btn-primary {
+    background-color: #FF7518 !important;
+    border-color: #FF7518 !important;
+}
+
+.btn-outline-primary {
+    color: #FF7518 !important;
+    border-color: #FF7518 !important;
+}
+.btn-outline-primary:hover {
+    background-color: lightgray !important;
 }

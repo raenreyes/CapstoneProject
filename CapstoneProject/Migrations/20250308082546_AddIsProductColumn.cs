@@ -5,24 +5,25 @@
 namespace CapstoneProject.Migrations
 {
     /// <inheritdoc />
-    public partial class AddQuantityToDB : Migration
+    public partial class AddIsProductColumn : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "Quantity",
-                table: "OrderHeaders",
-                type: "int",
-                nullable: true);
+            migrationBuilder.AddColumn<bool>(
+                name: "IsProduct",
+                table: "Products",
+                type: "bit",
+                nullable: false,
+                defaultValue: false);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Quantity",
-                table: "OrderHeaders");
+                name: "IsProduct",
+                table: "Products");
         }
     }
 }

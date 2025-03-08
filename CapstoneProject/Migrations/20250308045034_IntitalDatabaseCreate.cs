@@ -2,12 +2,10 @@
 
 #nullable disable
 
-#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
-
 namespace CapstoneProject.Migrations
 {
     /// <inheritdoc />
-    public partial class IntialCreate : Migration
+    public partial class IntitalDatabaseCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -43,7 +41,8 @@ namespace CapstoneProject.Migrations
                     State = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false)
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -54,17 +53,6 @@ namespace CapstoneProject.Migrations
                         principalTable: "Products",
                         principalColumn: "ProductId",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.InsertData(
-                table: "Products",
-                columns: new[] { "ProductId", "ProductDescription", "ProductImage", "ProductName", "ProductPrice" },
-                values: new object[,]
-                {
-                    { 1, "A deep dive into the C# programming language.", "/images/csharp-depth.jpg", "C# in Depth", 39.99m },
-                    { 2, "A guide to writing clean, maintainable, and efficient code.", "/images/clean-code.jpg", "Clean Code", 34.99m },
-                    { 3, "Classic book on software craftsmanship and best practices.", "/images/pragmatic-programmer.jpg", "The Pragmatic Programmer", 44.99m },
-                    { 4, "A foundational book on design patterns in software development.", "/images/design-patterns.jpg", "Design Patterns: Elements of Reusable Object-Oriented Software", 49.99m }
                 });
 
             migrationBuilder.CreateIndex(

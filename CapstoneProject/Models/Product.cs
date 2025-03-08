@@ -14,5 +14,7 @@ namespace CapstoneProject.Models
         public decimal ProductPrice { get; set; }
         [Required]
         public string ProductImage { get; set; } = string.Empty;
+        [Required]
+        public bool IsProduct { get; set; }
     }
 }

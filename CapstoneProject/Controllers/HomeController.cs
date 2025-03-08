@@ -21,12 +21,20 @@ namespace CapstoneProject.Controllers
             _orderHeaderService = orderHeaderService;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
+        {
+            return View();
+        }
+        public async Task<IActionResult> Shop()
         {
             var products = await _productService.GetAllProducts();
             return View(products);
         }
-
+        public async Task<IActionResult> Service()
+        {
+            var products = await _productService.GetAllServices();
+            return View(products);
+        }
         public async Task<IActionResult> Details(int productId)
         {
             var product = await _productService.GetProductById(productId);
