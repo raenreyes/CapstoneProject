@@ -177,6 +177,7 @@ namespace CapstoneProject.Controllers
                     {
 
                         getOrderHeaderById.PaymentIntentId = fullSession.PaymentIntentId;
+                        getOrderHeaderById.OrderDate = DateTime.Now;
                         await _orderHeaderService.UpdateOrderHeader(getOrderHeaderById);
                     }
 
