@@ -152,6 +152,37 @@
 </div>
 
 
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="welcomeModal" tabindex="-1" aria-labelledby="welcomeModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title fw-bold" id="welcomeModalLabel">IMPORTANT!!!</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<p id="modalMessage">To get a successfuly payment method use card number 4242 4242 4242 4242 as this is the test card that stripe gives you. You can use any cvc code and expiration date.</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- JavaScript to Trigger Modal -->
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		var myModal = new bootstrap.Modal(document.getElementById('welcomeModal'), {});
+		myModal.show();
+	});
+
+	function updateModalText(newText) {
+		document.getElementById('modalMessage').textContent = newText;
+	}
+</script>
+
+
 @section Scripts {
 	<partial name="_ValidationScriptsPartial" />
 }

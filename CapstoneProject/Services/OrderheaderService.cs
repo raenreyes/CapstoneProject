@@ -22,10 +22,23 @@ namespace CapstoneProject.Services
             }
             return await _context.OrderHeaders.Include(p => p.Product).FirstOrDefaultAsync(o => o.Id == id);
         }
+        public async Task<OrderHeader> GetOrderHeaderByPaymentIntentId(string paymentIntentId)
+        {
+            if (string.IsNullOrEmpty(paymentIntentId))
+            {
+                return null;
+            }
+            return await _context.OrderHeaders.Include(p => p.Product).FirstOrDefaultAsync(o => o.PaymentIntentId == paymentIntentId);
+        }
 
         public async Task SaveOrderHeader(OrderHeader orderHeader)
         {
             _context.OrderHeaders.Add(orderHeader);
+            await _context.SaveChangesAsync();
+        }
+        public async Task UpdateOrderHeader(OrderHeader orderHeader)
+        {
+            _context.OrderHeaders.Update(orderHeader);
             await _context.SaveChangesAsync();
         }
     }

@@ -6,5 +6,9 @@ namespace CapstoneProject.Services.Contracts
     {
         Task SaveOrderHeader(OrderHeader orderHeader);
         Task<OrderHeader> GetOrderHeaderById(int id);
+        Task<OrderHeader> GetOrderHeaderByPaymentIntentId(string paymentIntentId);
+        Task UpdateOrderHeader(OrderHeader orderHeader);
+
+
     }
 }

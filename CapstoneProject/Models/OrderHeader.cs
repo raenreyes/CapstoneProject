@@ -9,7 +9,7 @@ namespace CapstoneProject.Models
         [Key]
         public int Id { get; set; }
         public double OrderTotal { get; set; }
-        public string? SessionId { get; set; }
+        public string? PaymentStatus { get; set; }
         public string? PaymentIntentId { get; set; }
         [Required(ErrorMessage = "Phone number is required")]
         public string PhoneNumber { get; set; }
