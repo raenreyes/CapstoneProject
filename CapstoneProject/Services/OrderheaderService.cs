@@ -20,7 +20,9 @@ namespace CapstoneProject.Services
             {
                 return null;
             }
-            return await _context.OrderHeaders.Include(p => p.Product).FirstOrDefaultAsync(o => o.Id == id);
+            return await _context.OrderHeaders
+                .Include(o => o.Product) // Include the related Product entity
+                .FirstOrDefaultAsync(o => o.Id == id);
         }
         public async Task<OrderHeader> GetOrderHeaderByPaymentIntentId(string paymentIntentId)
         {
