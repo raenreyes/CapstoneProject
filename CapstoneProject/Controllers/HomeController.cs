@@ -28,6 +28,13 @@ namespace CapstoneProject.Controllers
 
         public IActionResult Index()
         {
+            var secretKey = _stripeSettings.SecretKey;
+            var publishableKey = _stripeSettings.PublishableKey;
+            var whSecret = _stripeSettings.WHSecret;
+
+            Console.WriteLine($"SecretKey: {secretKey}");
+            Console.WriteLine($"PublishableKey: {publishableKey}");
+            Console.WriteLine($"WHSecret: {whSecret}");
             return View();
         }
         public async Task<IActionResult> Shop()
