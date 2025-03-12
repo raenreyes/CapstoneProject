@@ -103,7 +103,7 @@ namespace CapstoneProject.Controllers
             }
 
 
-            var domain = "https://localhost:7090/";
+            var domain = "http://172.16.20.60:80/";
             var options = new Stripe.Checkout.SessionCreateOptions
             {
                 //SuccessUrl = domain + $"customer/cart/OrderConfirmation",
