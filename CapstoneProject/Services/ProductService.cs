@@ -7,9 +7,9 @@ namespace CapstoneProject.Services
 {
     public class ProductService : IProductService
     {
-        private AppDbContext _context;
+        private ApplicationDbContext _context;
 
-        public ProductService(AppDbContext context)
+        public ProductService(ApplicationDbContext context)
         {
             _context = context;
         }

@@ -7,9 +7,9 @@ namespace CapstoneProject.Services
 {
     public class OrderheaderService : IOrderHeaderService
     {
-        private readonly AppDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public OrderheaderService(AppDbContext context)
+        public OrderheaderService(ApplicationDbContext context)
         {
             _context = context;
         }
