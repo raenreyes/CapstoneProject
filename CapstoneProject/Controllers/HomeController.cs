@@ -8,9 +8,11 @@ using Stripe;
 using CapstoneProject.Utilities;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CapstoneProject.Controllers
 {
+    
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -25,33 +27,35 @@ namespace CapstoneProject.Controllers
             _orderHeaderService = orderHeaderService;
             _stripeSettings = stripeSettings.Value;
         }
-
+        
         public IActionResult Index()
         {
             var secretKey = _stripeSettings.SecretKey;
             var publishableKey = _stripeSettings.PublishableKey;
             var whSecret = _stripeSettings.WHSecret;
 
-            Console.WriteLine($"SecretKey: {secretKey}");
-            Console.WriteLine($"PublishableKey: {publishableKey}");
-            Console.WriteLine($"WHSecret: {whSecret}");
+            
             return View();
         }
+        [Authorize]
         public async Task<IActionResult> Shop()
         {
             var products = await _productService.GetAllProducts();
             return View(products);
         }
+        [Authorize]
         public async Task<IActionResult> Service()
         {
             var products = await _productService.GetAllServices();
             return View(products);
         }
+        [Authorize]
         public async Task<IActionResult> Details(int productId)
         {
             var product = await _productService.GetProductById(productId);
             return View(product);
         }
+        [Authorize]
         public async Task<IActionResult> Summary(int productId, int count)
         {
             var product = await _productService.GetProductById(productId);
@@ -63,12 +67,8 @@ namespace CapstoneProject.Controllers
 
             return View(shoppingCart);
         }
-        public IActionResult Test()
-        {
 
-            return View();
-        }
-
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Summary(ShoppingCartVM shoppingCart)
@@ -86,11 +86,13 @@ namespace CapstoneProject.Controllers
 
             return View(shoppingCart);
         }
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> StripePost(int orderHeaderId)
         {
             return await StripePostInternal(orderHeaderId);
         }
+        
         //this is where all the stripe checkout logic will go
         [HttpPost]
         //[Route("Home/StripePost/{orderHeaderId}")]
@@ -103,7 +105,7 @@ namespace CapstoneProject.Controllers
             }
 
 
-            var domain = "http://172.16.20.60:80/";
+            var domain = "https://localhost:7090/";
             var options = new Stripe.Checkout.SessionCreateOptions
             {
                 //SuccessUrl = domain + $"customer/cart/OrderConfirmation",
@@ -144,7 +146,7 @@ namespace CapstoneProject.Controllers
             Response.Headers.Add("Location", session.Url);
             return new StatusCodeResult(303);
         }
-
+        
         [HttpPost]
         [Route("/home/socalpayment")]
         public async Task<IActionResult> SoCalPayment()
@@ -222,7 +224,7 @@ namespace CapstoneProject.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-       
+        [Authorize]
         public async Task<IActionResult> OrderConfirmation(int id)
         {
             var orderHeader = await _orderHeaderService.GetOrderHeaderById(id);

@@ -4,14 +4,17 @@ using CapstoneProject.Services;
 using Microsoft.EntityFrameworkCore;
 using CapstoneProject.Utilities;
 using Stripe;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-builder.Services.AddDbContext<AppDbContext>(options =>
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
 builder.Services.AddScoped<IProductService, CapstoneProject.Services.ProductService>();
 builder.Services.AddScoped<IOrderHeaderService, OrderheaderService>();
@@ -40,4 +43,6 @@ app.MapControllerRoute(
     .WithStaticAssets();
 
 
+app.MapRazorPages()
+   .WithStaticAssets();
 app.Run();
