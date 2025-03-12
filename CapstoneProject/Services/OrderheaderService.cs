@@ -20,9 +20,7 @@ namespace CapstoneProject.Services
             {
                 return null;
             }
-            return await _context.OrderHeaders
-                .Include(o => o.Product) // Include the related Product entity
-                .FirstOrDefaultAsync(o => o.Id == id);
+            return await _context.OrderHeaders.FirstOrDefaultAsync(o => o.Id == id);
         }
         public async Task<OrderHeader> GetOrderHeaderByPaymentIntentId(string paymentIntentId)
         {
@@ -30,7 +28,7 @@ namespace CapstoneProject.Services
             {
                 return null;
             }
-            return await _context.OrderHeaders.Include(p => p.Product).FirstOrDefaultAsync(o => o.PaymentIntentId == paymentIntentId);
+            return await _context.OrderHeaders.FirstOrDefaultAsync(o => o.PaymentIntentId == paymentIntentId);
         }
 
         public async Task SaveOrderHeader(OrderHeader orderHeader)
@@ -43,5 +41,14 @@ namespace CapstoneProject.Services
             _context.OrderHeaders.Update(orderHeader);
             await _context.SaveChangesAsync();
         }
+
+
+
+        //public Task SaveOrderHeader(OrderHeader orderHeader)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+       
     }
 }

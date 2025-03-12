@@ -1,85 +1,77 @@
 ﻿@model Product
+
 <div class="container mb-5">
     <div class="container">
-  
-    <div class="card shadow border-0 mt-4 mb-4">
+        <div class="card shadow border-0 mt-4 mb-4">
             <div class="card-header text-light py-4" style="background-color: #1a1a1a">
-            <div class="row">
-                <div class="col-12 text-center">
-                    <h3 class="text-white text-uppercase">@Model.ProductName</h3>
-                    @* <p class="text-white-50 fw-semibold mb-0">by @Model.Product.Author</p> *@
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <h3 class="text-white text-uppercase">@Model.ProductName</h3>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="card-body mb-5">
-            <div class="py-3">
-                <div class="row">
-                    <div class="col-6 col-md-2 offset-lg-1 pb-1">
-                        <a asp-action="Index" class="btn btn-outline-primary bg-gradient mb-5 fw-semibold btn-sm text-uppercase">
-                            <small>Back to home</small>
-                        </a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12 col-lg-3 offset-lg-1 text-center mb-3">
-                    <img src="~/img/@Model.ProductImage" width="100%" class="rounded" />
-                    </div>
-                    <div class="col-12 col-lg-6 offset-lg-1">
-
-                        @* <div class="col-12 col-md-6 pb-4">
-                            <span class="badge">@Model.Product.Category.Name</span>
-                        </div> *@
-                       @*  <div class="row ps-2">
-                            <h6 class="text-dark text-opacity-50 ">ISBN : @Model.Product.ISBN</h6>
-                        </div> *@
-                        <div class="row">
-                            <h6 class="text-dark text-opacity-75 pb-2">
-                                Price:
-                                <span>
-                                    @Model.ProductPrice.ToString("c")
-                                </span>
-                            </h6>
-                        </div>
-                      
-                       
-                        <div class="row pl-2 my-3">
-                            <p class="text-secondary lh-sm">@Model.ProductDescription</p>
-                        </div>
-                    <div class="row pl-2 mb-3">
-                        <div class="col-md-4">
-                            <div class="input-group mb-3">
-                                        <span style="background: #FF7518" class="input-group-text text-white border-0 fw-semibold"
-                                      id="inputGroup-sizing-default">
-                                    Count
-                                </span>
-                                <select id="countDropdown" class="form-control text-end">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+            <div class="card-body mb-5">
+                <div class="py-3">
                     <div class="row">
-                        <div class="col-12 col-md-6 pb-1">
-                            <a id="detailsButton" asp-action="Summary" asp-route-productId="@Model.ProductId"
-                               class="btn btn-primary bg-gradient w-100 py-2 text-uppercase fw-semibold">
-                                Details
+                        <div class="col-6 col-md-2 offset-lg-1 pb-1">
+                            <a asp-action="Index" class="btn btn-outline-primary bg-gradient mb-5 fw-semibold btn-sm text-uppercase">
+                                <small>Back to home</small>
                             </a>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-12 col-lg-3 offset-lg-1 text-center mb-3">
+                            <img src="~/img/@Model.ProductImage" width="100%" class="rounded" />
+                        </div>
+                        <div class="col-12 col-lg-6 offset-lg-1">
+                            <div class="row">
+                                <h6 class="text-dark text-opacity-75 pb-2">
+                                    Price:
+                                    <span>
+                                        @Model.ProductPrice.ToString("c")
+                                    </span>
+                                </h6>
+                            </div>
+                            <div class="row pl-2 my-3">
+                                <p class="text-secondary lh-sm">@Model.ProductDescription</p>
+                            </div>
+                            <form asp-action="Details" method="post">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" asp-for="ProductId" />
+                                <div class="row pl-2 mb-3">
+                                    <div class="col-md-4">
+                                        <div class="input-group mb-3">
+                                            <span style="background: #FF7518" class="input-group-text text-white border-0 fw-semibold"
+                                                  id="inputGroup-sizing-default">
+                                                Count
+                                            </span>
+                                            <select id="countDropdown" name="count" class="form-control text-end">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-6 pb-1">
+                                        <button type="submit" class="btn btn-primary bg-gradient w-100 py-2 text-uppercase fw-semibold">
+                                            Add to Cart
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-</div>
-</div>
-<script>
+@* <script>
     document.addEventListener("DOMContentLoaded", function () {
         const countInput = document.getElementById("countDropdown");
         const detailsButton = document.getElementById("detailsButton");
@@ -97,5 +89,5 @@
             window.location.href = newUrl;
         });
     });
-</script>
+</script> *@
 

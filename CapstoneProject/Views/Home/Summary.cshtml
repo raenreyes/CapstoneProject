@@ -1,21 +1,14 @@
-﻿@model ShoppingCartVM
-<div class="container mb-3">
+﻿@model ShopCartVM
+
 
 <form method="post">
 	<br />
-	@Html.AntiForgeryToken()
-	<input type="hidden" asp-for="OrderHeader.Quantity" />
-    <input type="hidden" asp-for="OrderHeader.OrderTotal" />
-    <input type="hidden" asp-for="OrderHeader.ProductId" />
-    <input type="hidden" asp-for="Product.ProductId" />
-    <input type="hidden" asp-for="Product.ProductName" />
-    <input type="hidden" asp-for="Product.ProductDescription" />
-    <input type="hidden" asp-for="Product.ProductPrice" />
-    <input type="hidden" asp-for="Product.ProductImage" />
 	<div class="container">
 		<div class="card shadow border-0">
+			<input type="hidden" asp-for="OrderHeader.OrderTotal" />
+			<input type="hidden" asp-for="OrderHeader.IdentityUserId" />
 
-				<div style="background-color: #1a1a1a" class="card-header text-light ml-0 py-4">
+			<div class="card-header bg-secondary bg-gradient text-light ml-0 py-4">
 				<div class="row px-4">
 					<div class="col-6">
 						<h5 class="pt-2 text-white">
@@ -23,7 +16,7 @@
 						</h5>
 					</div>
 					<div class="col-6 text-end">
-						<a asp-action="Index" class="btn btn-outline-primary btn-sm">Back To Home</a>
+						<a asp-action="Index" class="btn btn-danger btn-sm">Back to Cart</a>
 					</div>
 				</div>
 			</div>
@@ -33,7 +26,7 @@
 						<div class="col-12 col-lg-6 pb-4">
 							<div class="row">
 								<h4 class="d-flex justify-content-between align-items-center mb-3">
-									<span class="text-dark">Shipping Details:</span>
+									<span class="text-info">Shipping Details:</span>
 								</h4>
 							</div>
 							<div class="row my-1">
@@ -45,15 +38,15 @@
 									<span asp-validation-for="OrderHeader.Name" class="text-danger"></span>
 								</div>
 							</div>
-								<div class="row my-1">
-									<div class="col-3">
-										<label>Email</label>
-									</div>
-									<div class="col-9">
-										<input asp-for="OrderHeader.Email" class="form-control" />
-										<span asp-validation-for="OrderHeader.Email" class="text-danger"></span>
-									</div>
+							<div class="row my-1">
+								<div class="col-3">
+									<label>Email</label>
 								</div>
+								<div class="col-9">
+									<input asp-for="OrderHeader.Email" class="form-control" />
+									<span asp-validation-for="OrderHeader.Email" class="text-danger"></span>
+								</div>
+							</div>
 							<div class="row my-1">
 								<div class="col-3">
 									<label>Phone</label>
@@ -102,44 +95,35 @@
 						</div>
 						<div class="col-12 col-lg-5 offset-lg-1">
 							<h4 class="d-flex justify-content-between align-items-center mb-3">
-								<span class="text-dark">Order Summary:</span>
+								<span class="text-info">Order Summary:</span>
 							</h4>
 							<ul class="list-group mb-3">
-								
+								@foreach (var details in Model.ShoppingCartList)
+								{
 									<li class="list-group-item d-flex justify-content-between">
 										<div>
-											<h6 class="my-0">@Model.Product.ProductName</h6>
+											<h6 class="my-0">@details.Product.ProductName</h6>
+											<small class="text-muted">Quantity: @details.Count</small>
 										</div>
-									<span class="text-muted">@Model.Product.ProductPrice.ToString("c") X @Model.OrderHeader.Quantity </span>
+										<span class="text-muted">@((details.Product.ProductPrice * @details.Count).ToString("c")) </span>
 									</li>
-
-								<li class="list-group-item d-flex justify-content-between">
-									<div>
-										<h6 class="my-0">Quantity</h6>
-									</div>
-									<span class="text-muted"> @Model.OrderHeader.Quantity </span>
-								</li>
-								
+								}
 								<li class="list-group-item d-flex justify-content-between bg-light">
-									<small class="text-dark">Total (USD)</small>
-									<strong class="text-success">@Model.OrderHeader.OrderTotal.ToString("c")</strong>
+									<small class="text-info">Total (USD)</small>
+									<strong class="text-info">@Model.OrderHeader.OrderTotal.ToString("c")</strong>
 								</li>
-
 							</ul>
 						</div>
-						
-						
-						
 					</div>
 				</div>
 			</div>
 			<div class="card-footer">
 				<div class="row">
 					<div class="col-12 col-md-8 pt-2">
-						<strong style="color:maroon; font-size:14px;">
+						<p style="color:maroon; font-size:14px;">
 							Estimate Arrival Date:
 							@DateTime.Now.AddDays(7).ToShortDateString() - @DateTime.Now.AddDays(14).ToShortDateString()
-						</strong>
+						</p>
 					</div>
 					<div class="col-12 col-md-4">
 						<button type="submit" value="Place Order" class="btn btn-primary form-control">Place Order</button>
@@ -150,26 +134,7 @@
 	</div>
 </form>
 
-</div>
 
-
-<!-- Bootstrap Modal -->
-<div class="modal fade" id="welcomeModal" tabindex="-1" aria-labelledby="welcomeModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title fw-bold" id="welcomeModalLabel">IMPORTANT!!!</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-				<p id="modalMessage">To get a successfuly payment method use card number 4242 4242 4242 4242 as this is the test card that stripe gives you. You can use any cvc code and expiration date.</p>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-			</div>
-		</div>
-	</div>
-</div>
 
 <!-- JavaScript to Trigger Modal -->
 <script>

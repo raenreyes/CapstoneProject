@@ -18,6 +18,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
 builder.Services.AddScoped<IProductService, CapstoneProject.Services.ProductService>();
 builder.Services.AddScoped<IOrderHeaderService, OrderheaderService>();
+builder.Services.AddScoped<IOrderDetailService, OrderDetailService>();
+builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
