@@ -14,6 +14,11 @@ namespace CapstoneProject.Services
             _context = context;
         }
 
+        public async Task<List<OrderHeader>> GetAllOrderHeaders()
+        {
+            return await _context.OrderHeaders.Where(u => u.PaymentStatus == "succeeded").ToListAsync();
+        }
+
         public async Task<OrderHeader> GetOrderHeaderById(int id)
         {
             if (id == 0)

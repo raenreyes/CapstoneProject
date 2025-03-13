@@ -22,7 +22,10 @@ namespace CapstoneProject.Services
         {
             return await _context.Tickets.Where(u => u.IsCompleted == false).Include(u => u.User).ToListAsync();
         }
-
+        public async Task<List<Ticket>> GetCompletedTickets()
+        {
+            return await _context.Tickets.Where(t => t.IsCompleted).Include(u => u.User).ToListAsync();
+        }
         public async Task<Ticket> GetTicket(int ticketId)
         {
             return await _context.Tickets.FirstOrDefaultAsync(t => t.TicketId == ticketId);

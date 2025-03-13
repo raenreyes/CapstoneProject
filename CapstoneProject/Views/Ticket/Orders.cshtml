@@ -1,0 +1,58 @@
+﻿@model List<OrderHeader>
+
+<div class="container mt-4">
+    <h1 class="text-center">Order List</h1>
+    <div class="d-none d-md-block">
+        <!-- Show Table on Medium and Larger Screens -->
+        <table class="table table-striped table-bordered text-center">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Order Total</th>
+                    <th>Email</th>
+                    <th>Order Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var ticket in Model)
+                {
+                    <tr>
+                        <td>@ticket.Id</td>
+                        <td>@ticket.OrderTotal.ToString("c")</td>
+                        <td>@ticket.Email</td>
+                        <td>@ticket.OrderDate</td>
+                        <td>@ticket.PaymentStatus</td>
+                        <td>
+                            <a asp-action="OrderDetails" asp-route-orderId="@ticket.Id" class="btn btn-success btn-sm w-100">Details</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="d-md-none">
+        <!-- Show Cards on Small Screens -->
+        <div class="row">
+            @foreach (var ticket in Model)
+            {
+                <div class="col-12 mb-3">
+                    <div class="card shadow border-0">
+                        <div class="card-body">
+                            <h5 class="card-title"><strong>ID: @ticket.Id</strong></h5>
+                            <h6 class="text-muted">Total: @ticket.OrderTotal</h6>
+                            <p class="card-text"><strong>Email:</strong> @ticket.Email</p>
+                            <p class="card-text"><strong>Order Date:</strong> @ticket.OrderDate</p>
+                            <p class="card-text"><strong>Status:</strong> @ticket.PaymentStatus</p>
+
+                            <a asp-action="OrderDetails" asp-route-orderId="@ticket.Id" class="btn btn-success btn-sm w-100">Details</a>
+
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

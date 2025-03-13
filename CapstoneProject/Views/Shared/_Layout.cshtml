@@ -60,7 +60,10 @@
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-white" asp-controller="Ticket" asp-action="Index">Open Tickets</a>
+                                <a class="nav-link text-white" asp-controller="Ticket" asp-action="Index">Tickets</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-controller="Ticket" asp-action="Orders">Orders</a>
                             </li>
                         }
                     </ul>

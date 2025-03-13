@@ -1,6 +1,17 @@
 ﻿@model List<Ticket>
 
 <div class="container mt-4">
+    <h1 class="text-center">Tickets</h1>
+    <div class="text-end mb-3">
+        @if (!ViewBag.IsViewingCompleted)
+        {
+            <a asp-action="CompletedTickets" class="btn btn-primary">View Completed Tickets</a>
+        }
+        else
+        {
+            <a asp-action="Index" class="btn btn-primary">View Open Tickets</a>
+        }
+    </div>
     <div class="d-none d-md-block">
         <!-- Show Table on Medium and Larger Screens -->
         <table class="table table-striped table-bordered text-center">
