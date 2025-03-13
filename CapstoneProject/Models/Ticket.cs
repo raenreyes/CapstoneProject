@@ -24,5 +24,6 @@ namespace CapstoneProject.Models
 
         [Required]
         public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public bool IsCompleted { get; set; } = false;
     }
 }

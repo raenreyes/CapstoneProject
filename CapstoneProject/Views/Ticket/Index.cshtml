@@ -1,0 +1,87 @@
+﻿@model List<Ticket>
+
+<div class="container mt-4">
+    <div class="d-none d-md-block">
+        <!-- Show Table on Medium and Larger Screens -->
+        <table class="table table-striped table-bordered text-center">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Email</th>
+                    <th>Created At</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var ticket in Model)
+                {
+                    <tr>
+                        <td>@ticket.TicketId</td>
+                        <td>@ticket.Title</td>
+                        <td>@ticket.Description</td>
+                        <td>@ticket.User.Email</td>
+                        <td>@ticket.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                        <td>
+                            @if (ticket.IsCompleted)
+                            {
+                                <span class="badge bg-success">Completed</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-warning">Pending</span>
+                            }
+                        </td>
+                        <td>
+                            @if (!ticket.IsCompleted)
+                            {
+                                <form asp-action="Completed" asp-route-ticketId="@ticket.TicketId" method="post">
+                                    <button type="submit" class="btn btn-success btn-sm w-100">Complete</button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="d-md-none">
+        <!-- Show Cards on Small Screens -->
+        <div class="row">
+            @foreach (var ticket in Model)
+            {
+                <div class="col-12 mb-3">
+                    <div class="card shadow border-0">
+                        <div class="card-body">
+                            <h5 class="card-title"><strong>@ticket.Title</strong></h5>
+                            <h6 class="text-muted">ID: @ticket.TicketId</h6>
+                            <p class="card-text"><strong>Description:</strong> @ticket.Description</p>
+                            <p class="card-text"><strong>Email:</strong> @ticket.User.Email</p>
+                            <p class="card-text"><strong>Created At:</strong> @ticket.CreatedAt.ToString("yyyy-MM-dd HH:mm")</p>
+                            <p class="card-text">
+                                <strong>Status:</strong>
+                                @if (ticket.IsCompleted)
+                                {
+                                    <span class="badge bg-success">Completed</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-warning">Pending</span>
+                                }
+                            </p>
+                            @if (!ticket.IsCompleted)
+                            {
+                                <form asp-action="Completed" asp-route-ticketId="@ticket.TicketId" method="post">
+                                    <button type="submit" class="btn btn-success btn-sm w-100">Complete</button>
+                                </form>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

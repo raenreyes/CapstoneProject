@@ -83,3 +83,38 @@ footer {
 .btn-outline-primary:hover {
     background-color: lightgray !important;
 }
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+    .table th, .table td {
+        padding: 12px;
+        border: 1px solid #ddd;
+    }
+
+    .table thead {
+        background-color: #343a40;
+        color: white;
+    }
+
+.card {
+    border-radius: 10px;
+    
+}
+
+    
+
+.badge {
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+
+
+.navbar-toggler-icon {
+    filter: invert(1) !important;
+}

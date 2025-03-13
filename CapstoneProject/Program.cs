@@ -14,7 +14,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddRoles<IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
 builder.Services.AddScoped<IProductService, CapstoneProject.Services.ProductService>();
 builder.Services.AddScoped<IOrderHeaderService, OrderheaderService>();
@@ -44,7 +44,32 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
+//-------------------------------------------
+//create a admin role in the database
+//-------------------------------------------
 
+using (var scope = app.Services.CreateScope())
+{
+    var rolemgr = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+
+    var roles = new[] { "Admin" };
+    foreach (var role in roles)
+    {
+        if (!await rolemgr.RoleExistsAsync(role))
+        {
+            await rolemgr.CreateAsync(new IdentityRole(role));
+        }
+    }
+
+    string email = "admin@grouponeelite.local";
+    var user = await userManager.FindByEmailAsync(email);
+
+    if (user != null && !await userManager.IsInRoleAsync(user, "Admin"))
+    {
+        await userManager.AddToRoleAsync(user, "Admin");
+    }
+}
 
 app.MapRazorPages()
    .WithStaticAssets();

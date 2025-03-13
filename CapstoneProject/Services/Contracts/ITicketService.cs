@@ -5,5 +5,8 @@ namespace CapstoneProject.Services.Contracts
     public interface ITicketService
     {
         Task AddTicket(Ticket ticket);
+        Task<List<Ticket>> GetAllTickets();
+        Task MarkTicketComplete(Ticket ticket);
+        Task<Ticket> GetTicket(int ticketId);
     }
 }
