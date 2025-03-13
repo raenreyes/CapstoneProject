@@ -11,6 +11,8 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using Stripe.Issuing;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace CapstoneProject.Controllers
 {
@@ -22,10 +24,11 @@ namespace CapstoneProject.Controllers
         private readonly IOrderHeaderService _orderHeaderService;
         private readonly IOrderDetailService _orderDetailService;
         private readonly IShoppingCartService _shoppingCartService;
+        private readonly ITicketService _ticketService;
         private readonly StripeSettings _stripeSettings;
 
         public HomeController(ILogger<HomeController> logger, IOptions<StripeSettings> stripeSettings, IProductService productService, IOrderHeaderService orderHeaderService
-                                , IShoppingCartService shoppingCartService, IOrderDetailService orderDetailService)
+                                , IShoppingCartService shoppingCartService, IOrderDetailService orderDetailService, ITicketService ticketService)
         {
             _logger = logger;
             _productService = productService;
@@ -33,6 +36,7 @@ namespace CapstoneProject.Controllers
             _stripeSettings = stripeSettings.Value;
             _shoppingCartService = shoppingCartService;
             _orderDetailService = orderDetailService;
+            _ticketService = ticketService;
         }
 
         public IActionResult Index()
@@ -91,7 +95,7 @@ namespace CapstoneProject.Controllers
             return RedirectToAction(nameof(Cart));
         }
 
-
+        [Authorize]
         public async Task<IActionResult> Remove(int cartId)
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
@@ -136,10 +140,15 @@ namespace CapstoneProject.Controllers
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var shoppingCartList = await _shoppingCartService.GetAllShoppingCarts(userId);
+            if (!shoppingCartList.Any())
+            {
+                return RedirectToAction(nameof(Cart));
+            }
 
             ShopCartVM cartfromDb = new()
             {
-                ShoppingCartList = await _shoppingCartService.GetAllShoppingCarts(userId),
+                ShoppingCartList = shoppingCartList,
                 OrderHeader = new() { IdentityUserId = userId }
 
             };
@@ -176,7 +185,7 @@ namespace CapstoneProject.Controllers
             var domain = "https://localhost:7090/";
             var options = new Stripe.Checkout.SessionCreateOptions
             {
-                SuccessUrl = $"{domain}Home/OrderConfirmation",
+                SuccessUrl = $"{domain}Home/OrderConfirmation/{shopCartVM.OrderHeader.Id}",
                 CancelUrl = domain,
                 LineItems = new List<Stripe.Checkout.SessionLineItemOptions>(),
                 Mode = "payment",
@@ -294,13 +303,19 @@ namespace CapstoneProject.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
         [Authorize]
-        public async Task<IActionResult> OrderConfirmation()
+        [Route("Home/OrderConfirmation/{orderId}")]
+        public async Task<IActionResult> OrderConfirmation(int orderId)
         {
-            //var orderHeader = await _orderHeaderService.GetOrderHeaderById(id);
-            //if (orderHeader == null)
-            //{
-            //    return NotFound();
-            //}
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var orderHeader = await _orderHeaderService.GetOrderHeaderById(orderId);
+            if (orderHeader == null)
+            {
+                return NotFound();
+            }
+            List<ShoppingCart> shoppingCarts = await _shoppingCartService.GetAllShoppingCarts(userId);
+            await _shoppingCartService.RemoveRange(shoppingCarts);
+
             return View();
         }
         [Authorize]
@@ -332,6 +347,32 @@ namespace CapstoneProject.Controllers
             }
             return View(shoppingCart);
         }
+        [Authorize]
+        public async Task<IActionResult> Help()
+        {
+            return View();
+        }
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Help(TicketVM model)
+        {
+            if (ModelState.IsValid)
+            {
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var userId = claimsIdentity?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var ticket = new Ticket
+                {
+                    UserId = userId,
+                    Title = model.Title,
+                    Description = model.Description
+                };
 
+                await _ticketService.AddTicket(ticket);
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(model);
+        } 
     }
 }

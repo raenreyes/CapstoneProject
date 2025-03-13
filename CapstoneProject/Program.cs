@@ -20,6 +20,7 @@ builder.Services.AddScoped<IProductService, CapstoneProject.Services.ProductServ
 builder.Services.AddScoped<IOrderHeaderService, OrderheaderService>();
 builder.Services.AddScoped<IOrderDetailService, OrderDetailService>();
 builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
+builder.Services.AddScoped<ITicketService, TicketService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

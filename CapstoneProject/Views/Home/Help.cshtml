@@ -1,0 +1,60 @@
+﻿@model TicketVM
+
+@{
+    ViewData["Title"] = "Create Ticket";
+}
+
+
+
+<form asp-action="Help" method="post">
+    @Html.AntiForgeryToken()
+    <br />
+    <div class="container">
+        <div class="card shadow border-0">
+            <div class="card-header  text-light ml-0 py-4" style="background-color: #1a1a1a">
+                <div class="row px-4">
+                    <div class="col-6">
+                        <h3 class="pt-2 text-uppercase text-white">Submit a Ticket If There Are Any Issues</h3>
+                    </div>
+                    <div class="col-6 text-end">
+                        <a asp-action="Index" class="btn btn-danger btn-sm">Back to Home</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="container rounded p-2">
+                    <div class="row my-1">
+                        <div class="col-3">
+                            <label asp-for="Title" class="control-label">Problem</label>
+                        </div>
+                        <div class="col-9">
+                            <input asp-for="Title" class="form-control" />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row my-1">
+                        <div class="col-3">
+                            <label asp-for="Description" class="control-label"></label>
+                        </div>
+                        <div class="col-9">
+                            <textarea asp-for="Description" class="form-control"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row ">
+                <div class="col-md-12 text-center mt-3">
+                    <button type="submit" class="btn btn-primary mb-2 px-5 py-2">Submit Ticket</button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

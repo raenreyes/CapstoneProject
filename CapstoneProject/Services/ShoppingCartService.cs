@@ -2,6 +2,7 @@
 using CapstoneProject.Models;
 using CapstoneProject.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 
 namespace CapstoneProject.Services
 {
@@ -47,6 +48,12 @@ namespace CapstoneProject.Services
         public async Task DeleteShoppingCartById(ShoppingCart cart)
         {
             _context.ShoppingCarts.Remove(cart);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task RemoveRange(List<ShoppingCart> shoppingCarts)
+        {
+            _context.ShoppingCarts.RemoveRange(shoppingCarts);
             await _context.SaveChangesAsync();
         }
     }

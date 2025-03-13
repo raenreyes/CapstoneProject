@@ -15,6 +15,7 @@ namespace CapstoneProject.Data
         public DbSet<OrderHeader> OrderHeaders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
 
     }
 }
