@@ -111,30 +111,6 @@ namespace CapstoneProject.Controllers
             return RedirectToAction(nameof(Cart));
         }
 
-        //[Authorize]
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Summary(ShoppingCartVM shoppingCart)
-        //{
-        //    var errors = ModelState.Values.SelectMany(v => v.Errors);
-        //    foreach (var error in errors)
-        //    {
-        //        Console.WriteLine(error.ErrorMessage);
-        //    }
-        //    if (ModelState.IsValid)
-        //    {
-        //        await _orderHeaderService.SaveOrderHeader(shoppingCart.OrderHeader);
-        //        return RedirectToAction("StripePost", "Home", new { orderHeaderId = shoppingCart.OrderHeader.Id });
-        //    }
-
-        //    return View(shoppingCart);
-        //}
-        //[Authorize]
-        //[HttpGet]
-        //public async Task<IActionResult> StripePost(int orderHeaderId)
-        //{
-        //    return await StripePostInternal(orderHeaderId);
-        //}
         [Authorize]
         public async Task<IActionResult> Summary()
         {
