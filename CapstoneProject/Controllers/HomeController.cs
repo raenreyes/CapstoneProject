@@ -158,7 +158,7 @@ namespace CapstoneProject.Controllers
                 await _orderDetailService.AddOrderDetail(orderDetail);
             }
 
-            var domain = "http://172.16.20.60:80/";
+            var domain = "http://socalspooky.com/";
             var options = new Stripe.Checkout.SessionCreateOptions
             {
                 SuccessUrl = $"{domain}Home/OrderConfirmation/{shopCartVM.OrderHeader.Id}",
