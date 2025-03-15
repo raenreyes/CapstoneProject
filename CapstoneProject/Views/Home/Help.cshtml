@@ -4,14 +4,12 @@
     ViewData["Title"] = "Create Ticket";
 }
 
-
-
 <form asp-action="Help" method="post">
     @Html.AntiForgeryToken()
     <br />
     <div class="container">
         <div class="card shadow border-0">
-            <div class="card-header  text-light ml-0 py-4" style="background-color: #1a1a1a">
+            <div class="card-header text-light ml-0 py-4" style="background-color: #1a1a1a">
                 <div class="row px-4">
                     <div class="col-6">
                         <h3 class="pt-2 text-uppercase text-white">Submit a Ticket If There Are Any Issues</h3>
@@ -34,7 +32,42 @@
                     </div>
                     <div class="row my-1">
                         <div class="col-3">
-                            <label asp-for="Description" class="control-label"></label>
+                            <label asp-for="Category" class="control-label">Category</label>
+                        </div>
+                        <div class="col-9">
+                            <div class="input-group">
+                                <select asp-for="Category" class="form-control">
+                                    <option value="">Select Category</option>
+                                    <option value="Hardware">Hardware</option>
+                                    <option value="Software">Software</option>
+                                    <option value="Network">Network</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                                <span class="input-group-text"><i class="bi bi-caret-down-fill"></i></span>
+                            </div>
+                            <span asp-validation-for="Category" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row my-1">
+                        <div class="col-3">
+                            <label asp-for="PriorityLevel" class="control-label">Priority Level</label>
+                        </div>
+                        <div class="col-9">
+                            <div class="input-group">
+                                <select asp-for="PriorityLevel" class="form-control">
+                                    <option value="">Select Priority Level</option>
+                                    <option value="Low">Low</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="High">High</option>
+                                </select>
+                                <span class="input-group-text"><i class="bi bi-caret-down-fill"></i></span>
+                            </div>
+                            <span asp-validation-for="PriorityLevel" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row my-1">
+                        <div class="col-3">
+                            <label asp-for="Description" class="control-label">Description</label>
                         </div>
                         <div class="col-9">
                             <textarea asp-for="Description" class="form-control"></textarea>
@@ -44,12 +77,11 @@
                 </div>
             </div>
 
-            <div class="row ">
+            <div class="row">
                 <div class="col-md-12 text-center mt-3">
                     <button type="submit" class="btn btn-primary mb-2 px-5 py-2">Submit Ticket</button>
                 </div>
             </div>
-            
         </div>
     </div>
 </form>
@@ -57,4 +89,3 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
-

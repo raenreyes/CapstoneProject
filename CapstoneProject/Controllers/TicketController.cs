@@ -1,4 +1,5 @@
 ﻿using CapstoneProject.Models;
+using CapstoneProject.Models.VM;
 using CapstoneProject.Services;
 using CapstoneProject.Services.Contracts;
 using CapstoneProject.Utilities;
@@ -9,7 +10,7 @@ using System.Security.Claims;
 
 namespace CapstoneProject.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    
     public class TicketController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -25,12 +26,14 @@ namespace CapstoneProject.Controllers
             _orderHeaderService = orderHeaderService;
             _orderDetailService = orderDetailService;
         }
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             List<Ticket> allTickets = await _ticketService.GetAllTickets();
             ViewBag.IsViewingCompleted = false;
             return View(allTickets);
         }
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Completed(int ticketId)
         {
             Ticket ticketToComplete = await _ticketService.GetTicket(ticketId);
@@ -41,12 +44,14 @@ namespace CapstoneProject.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CompletedTickets()
         {
             List<Ticket> completedTickets = await _ticketService.GetCompletedTickets();
             ViewBag.IsViewingCompleted = true;
             return View("Index", completedTickets);
         }
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Orders(int ticketId)
         {
             List<OrderHeader> orders = await _orderHeaderService.GetAllOrderHeaders();
@@ -56,6 +61,7 @@ namespace CapstoneProject.Controllers
             }
             return View(orders);
         }
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> OrderDetails(int orderId)
         {
             List<OrderDetail> orderDetails = await _orderDetailService.GetOrderDetailsByOrderHeaderId(orderId);
@@ -64,6 +70,19 @@ namespace CapstoneProject.Controllers
                 return NotFound();
             }
             return View(orderDetails);
+        }
+        [Authorize]
+        public async Task<IActionResult> UserTickets()
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            List<Ticket> userTickets = await _ticketService.GetUserTickets(userId);
+            if (userTickets == null)
+            {
+                userTickets = new List<Ticket>();
+            }
+            
+            return View(userTickets);
         }
     }
 }

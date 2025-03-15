@@ -9,5 +9,6 @@ namespace CapstoneProject.Services.Contracts
         Task<List<Ticket>> GetCompletedTickets();
         Task MarkTicketComplete(Ticket ticket);
         Task<Ticket> GetTicket(int ticketId);
+        Task <List<Ticket>> GetUserTickets(string userId);
     }
 }

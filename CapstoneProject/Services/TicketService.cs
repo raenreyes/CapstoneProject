@@ -31,6 +31,11 @@ namespace CapstoneProject.Services
             return await _context.Tickets.FirstOrDefaultAsync(t => t.TicketId == ticketId);
         }
 
+        public async Task<List<Ticket>> GetUserTickets(string userId)
+        {
+            return await _context.Tickets.Where(t => t.UserId == userId).Include(u => u.User).ToListAsync();
+        }
+
         public async Task MarkTicketComplete(Ticket ticket)
         {
             _context.Tickets.Update(ticket);

@@ -11,5 +11,9 @@ namespace CapstoneProject.Models.VM
         [Required]
         [StringLength(1000)]
         public string Description { get; set; }
+        [Required]
+        public string PriorityLevel { get; set; }
+        [Required]
+        public string Category { get; set; }
     }
 }

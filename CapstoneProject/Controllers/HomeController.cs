@@ -341,7 +341,9 @@ namespace CapstoneProject.Controllers
                 {
                     UserId = userId,
                     Title = model.Title,
-                    Description = model.Description
+                    Description = model.Description,
+                    PriorityLevel = model.PriorityLevel,
+                    Category = model.Category
                 };
 
                 await _ticketService.AddTicket(ticket);
