@@ -33,13 +33,17 @@
             .help-button:hover {
                 background-color: #cc5200;
             }
+
+        
     </style>
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm custom-border-bottom box-shadow">
             <div class="container-fluid">
-                <a class="navbar-brand text-white" asp-area="" asp-controller="Home" asp-action="Index">SoCalSpooky</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img class="img-fluid" src="~/img/socalrmbgspooky.png" alt="SoCalSpooky Logo" style="max-height: 100%; margin-right: 15px;" />
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
