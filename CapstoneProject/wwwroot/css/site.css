@@ -78,3 +78,13 @@ body {
         opacity: 1;
     }
 }
+.img-container {
+    padding: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.img-padding {
+    margin-bottom: 150px;
+}
+.bg-grey {
+    background-color: lightgray;
+}
