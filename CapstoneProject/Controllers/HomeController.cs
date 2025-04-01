@@ -125,7 +125,7 @@ namespace CapstoneProject.Controllers
             ShopCartVM cartfromDb = new()
             {
                 ShoppingCartList = shoppingCartList,
-                OrderHeader = new() { IdentityUserId = userId }
+                OrderHeader = new() { IdentityUserId = userId, OrderDate = DateTime.Now }
 
             };
             foreach (var cart in cartfromDb.ShoppingCartList)

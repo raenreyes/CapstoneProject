@@ -11,7 +11,7 @@
                     <th>Order Total</th>
                     <th>Email</th>
                     <th>Order Date</th>
-                    <th>Status</th>
+               
                     <th>Action</th>
                 </tr>
             </thead>
@@ -23,7 +23,7 @@
                         <td>@ticket.OrderTotal.ToString("c")</td>
                         <td>@ticket.Email</td>
                         <td>@ticket.OrderDate</td>
-                        <td>@ticket.PaymentStatus</td>
+                       
                         <td>
                             <a asp-action="OrderDetails" asp-route-orderId="@ticket.Id" class="btn btn-success btn-sm w-100">Details</a>
                         </td>
@@ -45,7 +45,7 @@
                             <h6 class="text-muted">Total: @ticket.OrderTotal</h6>
                             <p class="card-text"><strong>Email:</strong> @ticket.Email</p>
                             <p class="card-text"><strong>Order Date:</strong> @ticket.OrderDate</p>
-                            <p class="card-text"><strong>Status:</strong> @ticket.PaymentStatus</p>
+                           
 
                             <a asp-action="OrderDetails" asp-route-orderId="@ticket.Id" class="btn btn-success btn-sm w-100">Details</a>
 
