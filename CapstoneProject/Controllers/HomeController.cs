@@ -161,7 +161,7 @@ namespace CapstoneProject.Controllers
             var domain = "http://socalspooky.com/";
             var options = new Stripe.Checkout.SessionCreateOptions
             {
-                SuccessUrl = $"{domain}Home/OrderConfirmation/{shopCartVM.OrderHeader.Id}",
+                SuccessUrl = $"{domain}Home/OrderConfirmation",
                 CancelUrl = domain,
                 LineItems = new List<Stripe.Checkout.SessionLineItemOptions>(),
                 Mode = "payment",
@@ -279,16 +279,16 @@ namespace CapstoneProject.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
         [Authorize]
-        [Route("Home/OrderConfirmation/{orderId}")]
-        public async Task<IActionResult> OrderConfirmation(int orderId)
+        [Route("Home/OrderConfirmation")]
+        public async Task<IActionResult> OrderConfirmation()
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var userId = claimsIdentity?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var orderHeader = await _orderHeaderService.GetOrderHeaderById(orderId);
-            if (orderHeader == null)
-            {
-                return NotFound();
-            }
+            //var orderHeader = await _orderHeaderService.GetOrderHeaderById(orderId);
+            //if (orderHeader == null)
+            //{
+            //    return NotFound();
+            //}
             List<ShoppingCart> shoppingCarts = await _shoppingCartService.GetAllShoppingCarts(userId);
             if(shoppingCarts == null)
             {
