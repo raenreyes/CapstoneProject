@@ -290,6 +290,10 @@ namespace CapstoneProject.Controllers
                 return NotFound();
             }
             List<ShoppingCart> shoppingCarts = await _shoppingCartService.GetAllShoppingCarts(userId);
+            if(shoppingCarts == null)
+            {
+                return NotFound();
+            }
             await _shoppingCartService.RemoveRange(shoppingCarts);
 
             return View();
